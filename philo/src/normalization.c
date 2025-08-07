@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   normalization.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/07/29 11:51:27 by user             ###   ########.fr       */
+/*   Created: 2025/07/28 10:42:03 by user              #+#    #+#             */
+/*   Updated: 2025/07/28 10:46:21 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+int ft_str2int(char *str)
+{
+	int	result;
+	int	digit;
 
-# include <string.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/time.h>
-# include <pthread.h>
-
-/* validation.c */
-int	ft_is_number(char *str);
-int	is_allow_values(char *str[], int size);
-
-/* normalization.c */
-int	ft_str2int(char *str);
-
-#endif
+	result = 0;
+	digit = 0;
+	while ('0' <= *str && *str <= '9')
+	{
+		digit = *str - '0';
+		result = result * 10 + digit;
+		str++;
+	}
+	return (result);
+}
