@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 14:37:19 by user              #+#    #+#             */
-/*   Updated: 2025/09/25 17:31:37 by sbaba            ###   ########.fr       */
+/*   Created: 2025/09/19 17:12:55 by user              #+#    #+#             */
+/*   Updated: 2025/09/25 17:15:02 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int main(int argc, char *argv[])
+void	philo_sleep(t_program *program, t_philo *philo)
 {
-	t_program			program;
-	t_philo				philos[PHILO_MAX];
-	pthread_mutex_t		forks[PHILO_MAX];
+	print_log(philo->id, "is sleeping");
+	ms_sleep(program->time_to_sleep);
+	return ;
+}
 
-	if (argc < 5 || 6 < argc || !is_allow_values(argv, argc))
-	{
-		printf("Error: You entered invalid parameters.\n");
-		return (-1);
-	}
-	init_program(&program, argc, argv);
-	init_philos(&program, philos);
-	init_forks(&program, forks);
+void	philo_think(t_program *program, t_philo *philo)
+{
+	print_log(philo->id, "is thinking");
+	(void)program;
+	return ;
+}
+
+int	philo_eat(t_program *program, t_philo *philo)
+{
+	print_log(philo->id, "is eating");
+	(void)program;
 	return (0);
 }

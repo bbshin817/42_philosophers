@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 14:37:19 by user              #+#    #+#             */
-/*   Updated: 2025/09/25 17:31:37 by sbaba            ###   ########.fr       */
+/*   Created: 2025/09/19 17:12:55 by user              #+#    #+#             */
+/*   Updated: 2025/09/25 17:14:29 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int main(int argc, char *argv[])
+void	print_log(int philo_id, char *message)
 {
-	t_program			program;
-	t_philo				philos[PHILO_MAX];
-	pthread_mutex_t		forks[PHILO_MAX];
+	struct timeval	tv;
 
-	if (argc < 5 || 6 < argc || !is_allow_values(argv, argc))
-	{
-		printf("Error: You entered invalid parameters.\n");
-		return (-1);
-	}
-	init_program(&program, argc, argv);
-	init_philos(&program, philos);
-	init_forks(&program, forks);
-	return (0);
+	gettimeofday(&tv, NULL);
+	printf("%ld.%ld %d %s", tv.tv_sec, (tv.tv_usec / 1000), philo_id, message);
+	return ;
+}
+
+void	ms_sleep(int ms)
+{
+	usleep(ms * 1000);
+	return ;
 }

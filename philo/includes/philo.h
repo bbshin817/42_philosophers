@@ -6,13 +6,14 @@
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/24 21:19:44 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/09/25 17:31:22 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+/* include other headers */
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -20,16 +21,13 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-/* validation.c */
-int	ft_is_number(char *str);
-int	is_allow_values(char *str[], int size);
-
-/* normalization.c */
-int	ft_str2int(char *str);
-
 /* defines */
 #ifndef PHILO_MAX
 # define PHILO_MAX 200
+#endif
+
+#ifndef THREAD_DELAY_MS
+# define THREAD_DELAY_MS 200
 #endif
 
 /* structures */
@@ -40,17 +38,47 @@ typedef	enum
 	SLEEPING
 }	t_philo_state;
 
+typedef struct s_program
+{
+	size_t	start_at;
+	int		number_of_philos;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		must_eats_count;
+}	t_program;
+
 typedef struct s_philo
 {
 	int				id;
+	int				is_dead;
 	pthread_t		thread;
 	t_philo_state	state;
-	size_t			start_at;
 	size_t			last_meal_at;
-	size_t			time_to_die;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
+	t_program		program;
 }	t_philo;
 
+/* inits.c */
+void	init_program(t_program *program, int argc, char *argv[]);
+void	init_philos(t_program *program, t_philo *philos);
+void	init_forks(t_program *program, pthread_mutex_t *forks);
+
+/* normalization.c */
+int		ft_str2int(char *str);
+
+/* philo_actions.c */
+void	philo_sleep(t_program *program, t_philo *philo);
+void	philo_think(t_program *program, t_philo *philo);
+int		philo_eat(t_program *program, t_philo *philo);
+
+/* threads.c */
+
+/* utils.c */
+void	print_log(int philo_id, char *message);
+void	ms_sleep(int ms);
+
+/* validation.c */
+int		ft_is_number(char *str);
+int		is_allow_values(char *str[], int size);
 
 #endif
