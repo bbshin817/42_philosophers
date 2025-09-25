@@ -6,7 +6,7 @@
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:37:19 by user              #+#    #+#             */
-/*   Updated: 2025/09/25 17:31:12 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/09/25 18:30:34 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 void	init_program(t_program *program, int argc, char *argv[])
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	program->start_at = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	program->number_of_philos = ft_str2int(argv[1]);
 	program->time_to_die = ft_str2int(argv[2]);
 	program->time_to_eat = ft_str2int(argv[3]);
@@ -29,21 +25,6 @@ void	init_program(t_program *program, int argc, char *argv[])
 	return ;
 }
 
-void	init_philos(t_program *program, t_philo *philos)
-{
-	int				i;
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	i = 0;
-	while (i < program->number_of_philos)
-	{
-		philos[i].id = (i + 1);
-		i++;
-	}
-	return ;
-}
-
 void	init_forks(t_program *program, pthread_mutex_t *forks)
 {
 	int	i;
@@ -52,6 +33,49 @@ void	init_forks(t_program *program, pthread_mutex_t *forks)
 	while (i < program->number_of_philos)
 	{
 		pthread_mutex_init(&forks[i], NULL);
+		i++;
+	}
+	return ;
+}
+
+void	init_philos(t_program *program, pthread_mutex_t *forks, t_philo *philos)
+{
+	int				i;
+
+	i = 0;
+	while (i < program->number_of_philos)
+	{
+		philos[i].id = (i + 1);
+		philos[i].is_dead = 0;
+		philos[i].program = program;
+		philos[i].forks = forks;
+		philos[i].last_meal_at = get_current_time();
+		i++;
+	}
+	return ;
+}
+
+void	init_threads(t_program *program, t_philo *philos, pthread_t *threads, pthread_mutex_t *forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < program->number_of_philos)
+	{
+		pthread_create(&threads[i], NULL, &philo_thread, (void *)&philos[i]);
+		i++;
+	}
+	i = 0;
+	while (i < program->number_of_philos)
+	{
+		pthread_join(threads[i], NULL);
+		i++;
+	}
+	i = 0;
+	while (i < program->number_of_philos)
+	{
+		pthread_detach(threads[i]);
+		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
 	return ;

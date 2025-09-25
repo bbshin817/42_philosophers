@@ -6,7 +6,7 @@
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/25 17:31:22 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/09/25 18:26:54 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef	enum
 
 typedef struct s_program
 {
-	size_t	start_at;
 	int		number_of_philos;
 	int		time_to_die;
 	int		time_to_eat;
@@ -52,16 +51,17 @@ typedef struct s_philo
 {
 	int				id;
 	int				is_dead;
-	pthread_t		thread;
 	t_philo_state	state;
 	size_t			last_meal_at;
-	t_program		program;
+	t_program		*program;
+	pthread_mutex_t	*forks;
 }	t_philo;
 
 /* inits.c */
 void	init_program(t_program *program, int argc, char *argv[]);
-void	init_philos(t_program *program, t_philo *philos);
+void	init_philos(t_program *program, pthread_mutex_t *forks, t_philo *philos);
 void	init_forks(t_program *program, pthread_mutex_t *forks);
+void	init_threads(t_program *program, t_philo *philos, pthread_t *threads, pthread_mutex_t *forks);
 
 /* normalization.c */
 int		ft_str2int(char *str);
@@ -69,13 +69,16 @@ int		ft_str2int(char *str);
 /* philo_actions.c */
 void	philo_sleep(t_program *program, t_philo *philo);
 void	philo_think(t_program *program, t_philo *philo);
-int		philo_eat(t_program *program, t_philo *philo);
+void	philo_eat(t_program *program, t_philo *philo);
 
 /* threads.c */
+void*	philo_thread(void *arg);
 
 /* utils.c */
 void	print_log(int philo_id, char *message);
 void	ms_sleep(int ms);
+size_t	get_current_time();
+int		get_diff_micros(struct timeval tv1, struct timeval tv2);
 
 /* validation.c */
 int		ft_is_number(char *str);
