@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 17:12:55 by user              #+#    #+#             */
-/*   Updated: 2025/09/25 18:19:31 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/09/27 01:09:57 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	print_log(int philo_id, char *message)
+void	print_log(t_philo *philo, char *message)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	printf("%ld%ld %d %s\n", tv.tv_sec, (tv.tv_usec / 1000), philo_id, message);
+	pthread_mutex_lock(&philo->write_lock);
+	printf("%zu %d %s\n", get_current_time(), philo->id, message);
+	pthread_mutex_unlock(&philo->write_lock);
 	return ;
 }
 

@@ -5,7 +5,7 @@ NAME	=	philo
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-g -Wall -Wextra -Werror
 
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
