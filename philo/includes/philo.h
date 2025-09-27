@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/27 01:23:26 by user             ###   ########.fr       */
+/*   Updated: 2025/09/27 18:22:31 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,29 @@ typedef	enum
 typedef struct s_program
 {
 	int				number_of_philos;
+	size_t			start_at;
 	pthread_mutex_t	dead_lock;
 	int				is_someone_died;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
 	int				must_eats_count;
 }	t_program;
 
 typedef struct s_philo
 {
 	int				id;
-	pthread_mutex_t	write_lock;
 	int				is_dead;
 	t_philo_state	state;
 	size_t			last_meal_at;
+	size_t			start_at;
 	int				meals_count;
 	t_program		*program;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
 }	t_philo;
 
 /* inits.c */
@@ -69,7 +73,7 @@ void	init_forks(t_program *program, pthread_mutex_t *forks);
 void	init_threads(t_program *program, t_philo *philos, pthread_mutex_t *forks);
 
 /* monitor.c */
-
+void*	monitor(void *arg);
 
 /* normalization.c */
 int		ft_str2int(char *str);
@@ -81,12 +85,12 @@ int		philo_eat(t_program *program, t_philo *philo);
 
 /* threads.c */
 void*	philo_thread(void *arg);
+int		is_me_died(t_philo *philo);
 
 /* utils.c */
 void	print_log(t_philo *philo, char *message);
 void	ms_sleep(int ms);
 size_t	get_current_time();
-int		get_diff_micros(struct timeval tv1, struct timeval tv2);
 
 /* validation.c */
 int		ft_is_number(char *str);
