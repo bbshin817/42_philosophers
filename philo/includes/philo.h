@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/27 18:22:31 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/09/29 02:41:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,58 +22,46 @@
 # include <pthread.h>
 
 /* defines */
-#ifndef PHILO_MAX
-# define PHILO_MAX 200
-#endif
+# ifndef PHILO_MAX
+#  define PHILO_MAX 200
+# endif
 
-#ifndef THREAD_DELAY_MS
-# define THREAD_DELAY_MS 1
-#endif
-
-/* structures */
-typedef	enum
-{
-	THINKING,
-	EATING,
-	SLEEPING
-}	t_philo_state;
+# ifndef THREAD_DELAY_MS
+#  define THREAD_DELAY_MS 1
+# endif
 
 typedef struct s_program
 {
 	int				number_of_philos;
 	size_t			start_at;
-	pthread_mutex_t	dead_lock;
-	int				is_someone_died;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	int				must_eats_count;
+	pthread_mutex_t	write_lock;
 }	t_program;
 
 typedef struct s_philo
 {
 	int				id;
-	int				is_dead;
-	t_philo_state	state;
 	size_t			last_meal_at;
 	size_t			start_at;
 	int				meals_count;
 	t_program		*program;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	write_lock;
-	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	start_at_lock;
 	pthread_mutex_t	meal_lock;
 }	t_philo;
 
 /* inits.c */
 void	init_program(t_program *program, int argc, char *argv[]);
-void	init_philos(t_program *program, pthread_mutex_t *forks, t_philo *philos);
+void	init_philos(t_program *pg, pthread_mutex_t *forks, t_philo *philos);
 void	init_forks(t_program *program, pthread_mutex_t *forks);
-void	init_threads(t_program *program, t_philo *philos, pthread_mutex_t *forks);
+void	init_threads(t_program *pg, t_philo *philos, pthread_mutex_t *forks);
 
 /* monitor.c */
-void*	monitor(void *arg);
+void	*monitor(void *arg);
 
 /* normalization.c */
 int		ft_str2int(char *str);
@@ -84,13 +72,12 @@ void	philo_think(t_philo *philo);
 int		philo_eat(t_program *program, t_philo *philo);
 
 /* threads.c */
-void*	philo_thread(void *arg);
-int		is_me_died(t_philo *philo);
+void	*philo_thread(void *arg);
 
 /* utils.c */
 void	print_log(t_philo *philo, char *message);
 void	ms_sleep(int ms);
-size_t	get_current_time();
+size_t	get_current_time(void);
 
 /* validation.c */
 int		ft_is_number(char *str);

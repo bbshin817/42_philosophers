@@ -6,13 +6,13 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:37:19 by user              #+#    #+#             */
-/*   Updated: 2025/09/27 00:16:37 by user             ###   ########.fr       */
+/*   Updated: 2025/09/29 02:28:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_program			program;
 	t_philo				philos[PHILO_MAX];

@@ -6,11 +6,11 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:42:03 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 10:46:21 by user             ###   ########.fr       */
+/*   Updated: 2025/09/29 01:56:45 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_str2int(char *str)
+int	ft_str2int(char *str)
 {
 	int	result;
 	int	digit;
