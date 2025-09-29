@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 02:41:36 by user             ###   ########.fr       */
+/*   Updated: 2025/09/29 16:05:03 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ typedef struct s_philo
 {
 	int				id;
 	size_t			last_meal_at;
-	size_t			start_at;
 	int				meals_count;
 	t_program		*program;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	start_at_lock;
 	pthread_mutex_t	meal_lock;
 }	t_philo;
 
@@ -76,7 +74,7 @@ void	*philo_thread(void *arg);
 
 /* utils.c */
 void	print_log(t_philo *philo, char *message);
-void	ms_sleep(int ms);
+void	ms_sleep(size_t ms);
 size_t	get_current_time(void);
 
 /* validation.c */

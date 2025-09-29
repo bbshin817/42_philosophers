@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:37:19 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 02:55:25 by user             ###   ########.fr       */
+/*   Updated: 2025/09/29 16:10:00 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	init_philos(t_program *pg, pthread_mutex_t *forks, t_philo *philos)
 	while (i < pg->number_of_philos)
 	{
 		pthread_mutex_init(&philos[i].meal_lock, NULL);
-		pthread_mutex_init(&philos[i].start_at_lock, NULL);
 		philos[i].id = (i + 1);
 		philos[i].program = pg;
 		philos[i].meals_count = 0;
@@ -74,10 +73,10 @@ void	init_threads(t_program *pg, t_philo *philos, pthread_mutex_t *forks)
 	pthread_create(&monitor_t, NULL, &monitor, (void *)philos);
 	pthread_join(monitor_t, NULL);
 	i = -1;
+	// pthread_mutex_unlock(&philos[0].program->write_lock);
 	while (++i < pg->number_of_philos)
 	{
 		pthread_mutex_destroy(&forks[i]);
-		pthread_mutex_destroy(&philos[i].start_at_lock);
 		pthread_mutex_destroy(&philos[i].meal_lock);
 		pthread_detach(threads[i]);
 	}

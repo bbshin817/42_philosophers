@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 17:12:55 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 01:53:52 by user             ###   ########.fr       */
+/*   Updated: 2025/09/29 16:04:46 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ void	print_log(t_philo *philo, char *message)
 	return ;
 }
 
-void	ms_sleep(int ms)
+void	ms_sleep(size_t ms)
 {
-	usleep(ms * 1000);
+	size_t	time;
+
+	time = get_current_time();
+	while ((get_current_time() - time) <= ms)
+		usleep(500);
 	return ;
 }
 
