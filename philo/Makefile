@@ -1,11 +1,18 @@
-SRCS =		$(wildcard src/*.c)
+SRCS =		src/inits.c \
+			src/main.c \
+			src/monitor.c \
+			src/normalization.c \
+			src/philo.c \
+			src/thread.c \
+			src/utils.c \
+			src/validation.c
 
 OBJS	=	$(SRCS:.c=.o)
 NAME	=	philo
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-g -Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror
 
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@

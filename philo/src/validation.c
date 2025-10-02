@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 10:21:37 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 01:52:34 by user             ###   ########.fr       */
+/*   Updated: 2025/10/02 19:25:03 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_allow_values(char *str[], int size)
 		if (!ft_is_number(str[i]))
 			return (0);
 		num = ft_str2int(str[i]);
-		if (num <= 0 || (i == 1 && 200 < num)
+		if (num <= 0 || (i == 1 && 200 <= num)
 			|| (2 <= i && i <= 4 && num < 60))
 			return (0);
 		i++;

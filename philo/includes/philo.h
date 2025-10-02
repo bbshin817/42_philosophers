@@ -6,7 +6,7 @@
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:36:11 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 16:05:03 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/10/02 19:37:40 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ typedef struct s_program
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	int				must_eats_count;
+	int				is_someone_died;
+	pthread_mutex_t	forks[PHILO_MAX];
+	pthread_mutex_t	died_lock;
 	pthread_mutex_t	write_lock;
 }	t_program;
 
@@ -54,9 +57,9 @@ typedef struct s_philo
 
 /* inits.c */
 void	init_program(t_program *program, int argc, char *argv[]);
-void	init_philos(t_program *pg, pthread_mutex_t *forks, t_philo *philos);
-void	init_forks(t_program *program, pthread_mutex_t *forks);
-void	init_threads(t_program *pg, t_philo *philos, pthread_mutex_t *forks);
+void	init_philos(t_program *pg, t_philo *philos);
+void	init_forks(t_program *program);
+int		launch(t_program *pg, t_philo *philos);
 
 /* monitor.c */
 void	*monitor(void *arg);
@@ -67,7 +70,8 @@ int		ft_str2int(char *str);
 /* philo_actions.c */
 void	philo_sleep(t_program *program, t_philo *philo);
 void	philo_think(t_philo *philo);
-int		philo_eat(t_program *program, t_philo *philo);
+void	philo_eat_r2l(t_program *program, t_philo *philo);
+void	philo_eat_l2r(t_program *program, t_philo *philo);
 
 /* threads.c */
 void	*philo_thread(void *arg);
@@ -76,6 +80,7 @@ void	*philo_thread(void *arg);
 void	print_log(t_philo *philo, char *message);
 void	ms_sleep(size_t ms);
 size_t	get_current_time(void);
+int		is_someone_died(t_philo	*philo);
 
 /* validation.c */
 int		ft_is_number(char *str);

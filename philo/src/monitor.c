@@ -6,7 +6,7 @@
 /*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:23:59 by user              #+#    #+#             */
-/*   Updated: 2025/09/29 16:16:34 by sbaba            ###   ########.fr       */
+/*   Updated: 2025/10/02 21:07:46 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,20 @@ int	is_glut(t_philo *philo)
 
 void	kill_philo(t_philo *philo, int is_visible_message)
 {
+	char	*m;
+	size_t	time;
+
+	pthread_mutex_lock(&philo->program->died_lock);
+	philo->program->is_someone_died = 1;
+	pthread_mutex_unlock(&philo->program->died_lock);
+	time = get_current_time() - philo->program->start_at;
 	if (is_visible_message == 1)
-		print_log(philo, "\x1b[31mdied\x1b[39m");
-	// pthread_mutex_lock(&philo->program->write_lock);
+	{
+		pthread_mutex_lock(&philo->program->write_lock);
+		m = "\x1b[31mdied\x1b[39m";
+		printf("\x1b[32m%zu\x1b[39m %d %s\n", time, philo->id, m);
+		pthread_mutex_unlock(&philo->program->write_lock);
+	}
 	return ;
 }
 
@@ -70,7 +81,7 @@ void	*monitor(void *arg)
 			}
 		}
 		if (glut_flag == 1)
-			return (kill_philo(&philos[i], 0), NULL);
+			return (kill_philo(&philos[0], 0), NULL);
 	}
 	return (NULL);
 }
